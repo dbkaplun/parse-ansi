@@ -1,0 +1,14 @@
+[package]
+name = "parse-ansi"
+version = "0.1.0"
+description = "Parse ANSI escape codes (colors, underlines, etc.)"
+homepage = "https://github.com/dbkaplun/parse-ansi"
+authors = ["Dan Kaplun <dbkaplun@gmail.com>"]
+license = "MIT"
+
+[dependencies]
+lazy_static = "1.0"
+regex = "1.0.0"
+
+[dev-dependencies]
+itertools = "0.7.3"
