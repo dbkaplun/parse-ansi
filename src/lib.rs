@@ -8,13 +8,30 @@ extern crate itertools;
 use regex::bytes::{Captures, Regex};
 
 // Inspired by https://github.com/nodejs/node/blob/641d4a4159aaa96eece8356e03ec6c7248ae3e73/lib/internal/readline.js#L9
-pub const ANSI_RE: &'static str =
+pub const ANSI_RE: &str =
     r"[\x1b\x9b]\[[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]";
 
 lazy_static! {
     pub static ref ANSI_REGEX: Regex = Regex::new(ANSI_RE).unwrap();
 }
 
+/// Parses ANSI escape codes from the given text, returning an iterator of `Captures`.
+///
+/// ```rust
+/// # use parse_ansi::parse_bytes;
+///
+/// let ansi_text = b"Hello, \x1b[31;4mworld\x1b[0m!";
+/// let parsed: Vec<_> = parse_bytes(ansi_text)
+///     .flat_map(|caps| caps.iter().collect::<Vec<_>>())
+///     .filter_map(|cap| cap.map(|c| {
+///         (c.start(), c.end())
+///     }))
+///     .collect();
+/// assert_eq!(
+///     parsed,
+///     vec![(7, 14), (19, 23)],
+/// );
+/// ```
 pub fn parse_bytes(text: &[u8]) -> impl Iterator<Item = Captures> {
     ANSI_REGEX.captures_iter(text)
 }
