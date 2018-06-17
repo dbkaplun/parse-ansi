@@ -1,6 +1,6 @@
 [package]
 name = "parse-ansi"
-version = "0.1.3"
+version = "0.1.4"
 description = "Parse ANSI escape codes (colors, underlines, etc.)"
 homepage = "https://github.com/dbkaplun/parse-ansi"
 authors = ["Dan Kaplun <dbkaplun@gmail.com>"]
