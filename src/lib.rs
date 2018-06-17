@@ -4,8 +4,10 @@
 //! extern crate parse_ansi;
 //!
 //! assert_eq!(
-//!     parse_ansi::ANSI_REGEX
-//!         .replace_all(b"Hello, \x1b[42mworld\x1b[0m!", b"" as &[u8]),
+//!     parse_ansi::ANSI_REGEX.replace_all(
+//!         b"Hello, \x1b[42mworld\x1b[0m!",
+//!         b"" as &[u8],
+//!     ),
 //!     b"Hello, world!" as &[u8],
 //! );
 //! ```
