@@ -1,3 +1,21 @@
+//! Parse ANSI escape codes (colors, underlines, etc.)
+//!
+//! ```rust
+//! extern crate parse_ansi;
+//!
+//! let ansi_text = b"Hello, \x1b[31;4mworld\x1b[0m!";
+//! let parsed: Vec<_> = parse_ansi::parse_bytes(ansi_text)
+//!     .map(|m| (m.start(), m.end(), m.as_bytes()))
+//!     .collect();
+//! assert_eq!(
+//!     parsed,
+//!     vec![
+//!         (7, 14, b"\x1b[31;4m" as &[u8]),
+//!         (19, 23, b"\x1b[0m"),
+//!     ],
+//! );
+//! ```
+
 #[macro_use]
 extern crate lazy_static;
 extern crate regex;
@@ -20,9 +38,9 @@ lazy_static! {
 /// ```rust
 /// # use parse_ansi::parse_bytes;
 /// let ansi_text = b"Hello, \x1b[31;4mworld\x1b[0m!";
-/// let parsed: Vec<_> = parse_bytes(ansi_text).map(|m| {
-///     (m.start(), m.end())
-/// }).collect();
+/// let parsed: Vec<_> = parse_bytes(ansi_text)
+///     .map(|m| (m.start(), m.end()))
+///     .collect();
 /// assert_eq!(
 ///     parsed,
 ///     vec![(7, 14), (19, 23)],
