@@ -3,16 +3,10 @@
 //! ```rust
 //! extern crate parse_ansi;
 //!
-//! let ansi_text = b"Hello, \x1b[31;4mworld\x1b[0m!";
-//! let parsed: Vec<_> = parse_ansi::parse_bytes(ansi_text)
-//!     .map(|m| (m.start(), m.end(), m.as_bytes()))
-//!     .collect();
 //! assert_eq!(
-//!     parsed,
-//!     vec![
-//!         ( 7, 14, b"\x1b[31;4m" as &[u8]),
-//!         (19, 23, b"\x1b[0m"),
-//!     ],
+//!     parse_ansi::ANSI_REGEX
+//!         .replace_all(b"Hello, \x1b[42mworld\x1b[0m!", b"" as &[u8]),
+//!     b"Hello, world!" as &[u8],
 //! );
 //! ```
 
@@ -30,6 +24,14 @@ pub const ANSI_RE: &str =
     r"[\x1b\x9b]\[[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]";
 
 lazy_static! {
+    /// A `Regex` that matches ANSI escape codes.
+    ///
+    /// ```rust
+    /// # use parse_ansi::ANSI_REGEX;
+    /// assert_eq!(
+    ///     ANSI_REGEX.replace_all(b"foo \x1b[42mbar\x1b[0m baz", b"" as &[u8]),
+    ///     b"foo bar baz" as &[u8],
+    /// );
     pub static ref ANSI_REGEX: Regex = Regex::new(ANSI_RE).unwrap();
 }
 
