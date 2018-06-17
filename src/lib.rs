@@ -19,7 +19,6 @@ lazy_static! {
 ///
 /// ```rust
 /// # use parse_ansi::parse_bytes;
-///
 /// let ansi_text = b"Hello, \x1b[31;4mworld\x1b[0m!";
 /// let parsed: Vec<_> = parse_bytes(ansi_text)
 ///     .flat_map(|caps| caps.iter().collect::<Vec<_>>())
